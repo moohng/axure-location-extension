@@ -1,5 +1,17 @@
+/**
+ * 由于Axure的菜单数据是异步加载的，
+ * 因此这里通过循环来等待菜单加载完成
+ */
+let MAX_TRY_COUNT = 100;
 
 let timer = setInterval(() => {
+  // 避免不可预知情况导致无限循环
+  if (MAX_TRY_COUNT <= 0) {
+    clearInterval(timer);
+    timer = null;
+  }
+  MAX_TRY_COUNT--;
+
   const selectedItem = document.querySelector('#sitemapTreeContainer .sitemapHighlight');
   const toolBar = document.querySelector('#sitemapToolbar');
 
@@ -59,7 +71,7 @@ function isHiddenNode(node) {
 }
 
 /**
- *
+ * 找到被隐藏（折叠）的ul父节点
  * @param {HTMLElement} node
  */
 function findHiddenParentNode(node) {
@@ -70,7 +82,7 @@ function findHiddenParentNode(node) {
 }
 
 /**
- * 一键折叠其他版本
+ * 一键折叠其他根节点
  */
 function foldRootNode() {
   const rootUlEle = document.querySelector('#sitemapTreeContainer .sitemapTree');
