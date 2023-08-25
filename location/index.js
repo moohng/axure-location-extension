@@ -9,15 +9,19 @@ let timer = setInterval(() => {
     timer = null;
 
     // 一键折叠其他版本
-    const rootUlEle = document.querySelector('#sitemapTreeContainer .sitemapTree');
-    for (const item of rootUlEle.children) {
-      if (!item.querySelector('.sitemapHighlight')) {
-        item.firstChild.querySelector('a.sitemapPlusMinusLink')?.click();
-      }
-    }
+    foldRootNode();
 
     // 滚动到可视区域
     selectedItem.scrollIntoView({ behavior: 'smooth' });
+
+    // 添加折叠按钮
+    const foldButton = document.createElement('div');
+    foldButton.classList.add('sitemapToolbarButton', 'foldIcon');
+    toolBar.appendChild(foldButton);
+
+    foldButton.addEventListener('click', () => {
+      foldRootNode();
+    });
 
     // 添加定位按钮
     const locationButton = document.createElement('div');
@@ -63,4 +67,16 @@ function findHiddenParentNode(node) {
     return node;
   }
   return findHiddenParentNode(node.parentElement);
+}
+
+/**
+ * 一键折叠其他版本
+ */
+function foldRootNode() {
+  const rootUlEle = document.querySelector('#sitemapTreeContainer .sitemapTree');
+  for (const item of rootUlEle.children) {
+    if (!item.querySelector('.sitemapHighlight') && window.getComputedStyle(item.lastElementChild).display !== 'none') {
+      item.firstChild.querySelector('a.sitemapPlusMinusLink')?.click();
+    }
+  }
 }
