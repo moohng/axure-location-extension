@@ -1,0 +1,17 @@
+{
+  "name": "Axure Location",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "description": "Axure 导航栏快速定位",
+  "icons": {},
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.axshare.com/*"
+      ],
+      "css": ["location/style.css"],
+      "js": ["location/index.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
