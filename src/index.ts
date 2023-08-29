@@ -1,5 +1,3 @@
-import './style.css';
-
 import { axureReady, findHiddenParentNode, foldRootNode, isHiddenNode } from './location';
 
 async function run() {
