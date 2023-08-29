@@ -9,7 +9,7 @@ module.exports = {
   input: path.resolve('src/index.ts'),
   output: [
     {
-      file: 'public/js/location.js',
+      file: `dist/output/location.js`,
       format: 'iife',
       plugins: [terser()],
     },
