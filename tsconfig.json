@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "ESNext",
+    // "declaration": true,
+    // "declarationDir": "lib",
+    // "outFile": "types/index.d.ts",
+    // "emitDeclarationOnly": true,
+    "strict": true,
+    // "checkJs": true,
+    // "allowJs": true,
+    "newLine": "lf",
+    "noEmitOnError": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "skipLibCheck": true,
+    "lib": ["ESNext", "DOM"],
+  },
+  "include": ["src/**/*.ts"],
+}

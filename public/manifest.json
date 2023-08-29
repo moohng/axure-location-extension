@@ -9,8 +9,8 @@
       "matches": [
         "https://*.axshare.com/*"
       ],
-      "css": ["location/style.css"],
-      "js": ["location/index.js"],
+      "css": ["js/location.css"],
+      "js": ["js/location.js"],
       "run_at": "document_idle"
     }
   ]
