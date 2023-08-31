@@ -1,17 +1,21 @@
 import { axureReady, findHiddenParentNode, foldRootNode, isHiddenNode } from './location';
 
 async function run() {
-  const { selectedItem, toolBar } = await axureReady();
+  const result = await axureReady();
+  if (!result) return;
+
+  const { selectedItem, toolBar } = result;
 
   // 一键折叠其他版本
   foldRootNode();
 
   // 滚动到可视区域
-  selectedItem.scrollIntoView({ behavior: 'smooth' });
+  selectedItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
   // 添加折叠按钮
   const foldButton = document.createElement('div');
   foldButton.classList.add('sitemapToolbarButton', 'foldIcon');
+  foldButton.title = '一键折叠';
   toolBar.appendChild(foldButton);
 
   foldButton.addEventListener('click', () => {
@@ -21,6 +25,7 @@ async function run() {
   // 添加定位按钮
   const locationButton = document.createElement('div');
   locationButton.classList.add('sitemapToolbarButton', 'locationIcon');
+  locationButton.title = '快速定位';
   toolBar.appendChild(locationButton);
 
   locationButton.addEventListener('click', () => {
@@ -37,11 +42,15 @@ async function run() {
         ulEle?.previousElementSibling?.querySelector<HTMLElement>('a.sitemapPlusMinusLink')?.click();
       }
       // 滚动到可视区域
-      currentEle.scrollIntoView({ behavior: 'smooth' });
+      currentEle.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
       console.error('========== 未找到选中的菜单！===========');
     }
   });
 }
 
-run();
+try {
+  run();
+} catch (err) {
+  console.error('插件运行出错', err);
+}

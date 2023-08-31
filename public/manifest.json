@@ -3,14 +3,33 @@
   "manifest_version": 3,
   "description": "Axure 导航栏快速定位",
   "icons": {},
+  "background": {
+    "service_worker": "background.js"
+  },
   "content_scripts": [
     {
       "matches": [
-        "https://*.axshare.com/*"
+        "<all_urls>"
       ],
       "css": ["location.css"],
       "js": ["location.js"],
       "run_at": "document_idle"
     }
-  ]
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Axure Location"
+  },
+  "permissions": [
+    "contextMenus",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "web_accessible_resources": [],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
 }

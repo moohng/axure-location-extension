@@ -5,26 +5,36 @@
 export function axureReady() {
   let MAX_TRY_COUNT = 100;
 
-  return new Promise<{ selectedItem: Element; toolBar: Element }>((resolve, reject) => {
-    let timer = setInterval(() => {
-      // 避免不可预知情况导致无限循环
-      if (MAX_TRY_COUNT <= 0) {
-        clearInterval(timer);
+  return new Promise<{ selectedItem: Element; toolBar: Element } | null>(async (resolve) => {
+    let isAllowUrl = /axshare.com$/.test(location.origin);
+    if (!isAllowUrl) {
+      const { allowUrls = [] } = await chrome.storage.sync.get('allowUrls');
+      isAllowUrl = allowUrls.includes(location.origin);
+    }
 
-        reject(new Error('没有找到Axure页面相关信息！！！'));
-      }
-      MAX_TRY_COUNT--;
+    if (isAllowUrl) {
+      let timer = setInterval(() => {
+        // 避免不可预知情况导致无限循环
+        if (MAX_TRY_COUNT <= 0) {
+          clearInterval(timer);
 
-      const selectedItem = document.querySelector('#sitemapTreeContainer .sitemapHighlight');
-      const toolBar = document.querySelector('#sitemapToolbar');
+          resolve(null);
+        }
+        MAX_TRY_COUNT--;
 
-      // 保证左侧导航数据已加载完成
-      if (selectedItem && toolBar) {
-        clearInterval(timer);
+        const selectedItem = document.querySelector('#sitemapTreeContainer .sitemapHighlight');
+        const toolBar = document.querySelector('#sitemapToolbar');
 
-        resolve({ selectedItem, toolBar });
-      }
-    }, 500);
+        // 保证左侧导航数据已加载完成
+        if (selectedItem && toolBar) {
+          clearInterval(timer);
+
+          resolve({ selectedItem, toolBar });
+        }
+      }, 500);
+    } else {
+      resolve(null);
+    }
   });
 }
 
