@@ -15,21 +15,28 @@ manifest.version = version;
 fs.writeFileSync('dist/output/manifest.json', JSON.stringify(manifest));
 
 module.exports = {
-  input: path.resolve('src/index.ts'),
-  output: [
-    {
-      file: `dist/output/location.js`,
-      format: 'iife',
-      plugins: [terser()],
-    },
-  ],
+  input: {
+    location: path.resolve('src/index.ts'),
+    background: path.resolve('src/background.ts'),
+    popup: path.resolve('src/popup.ts'),
+  },
+  output: {
+    dir: `dist/output`,
+    format: 'es',
+    plugins: [terser()],
+  },
   plugins: [
     resolve({ extensions: ['.js', '.ts'] }),
     commonjs(),
     typescript(),
     // postCSS({ extract: true }),
     copy({
-      targets: [{ src: 'src/style.css', dest: 'dist/output/', rename: 'location.css' }],
+      targets: [
+        { src: 'public/location.css', dest: 'dist/output/', rename: 'location.css' },
+        { src: 'public/popup.css', dest: 'dist/output/' },
+        { src: 'public/popup.html', dest: 'dist/output/' },
+        { src: 'public/icons', dest: 'dist/output/' },
+      ],
     }),
   ],
 };

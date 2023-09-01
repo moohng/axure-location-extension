@@ -1,0 +1,108 @@
+:root {
+  --text-color: #333;
+  --base-bgc: aliceblue;
+  --card-bgc: #fff;
+
+  --primary-color: #009CD9;
+  --success-color: #74BB11;
+  --error-color: #EB2084;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: #fff;
+    --base-bgc: #202124;
+    --card-bgc: #3b3b3b;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 16px 16px 24px;
+  width: 300px;
+  color: var(--text-color);
+  background-color: var(--base-bgc);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.logo {
+  margin: 8px 0 18px;
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  margin-right: 16px;
+  width: 28px;
+}
+
+.logo .title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.card {
+  padding: 16px;
+  background-color: var(--card-bgc);
+  border-radius: 4px;
+}
+
+.card.top {
+  text-align: center;
+}
+
+.card .url {
+  margin: 8px 0 24px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.card .hr {
+  margin: 16px auto;
+  /* width: 90%; */
+  border-color: #666;
+  border-width: .5px;
+}
+
+.card .item {
+  margin: 24px 0 8px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.switch {
+  position: relative;
+  display: block;
+  margin: 0;
+  width: 42px;
+  height: 24px;
+  background-color: #ededed;
+  border-radius: 24px;
+  appearance: none;
+  cursor: pointer;
+}
+
+.switch::after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 2px;
+  top: 2px;
+  background-color: #fff;
+  box-shadow: 1px 1px 8px rgba(0, 0, 0, .1);
+  border-radius: 20px;
+  transition: transform .3s ease-out;
+}
+
+.switch:checked {
+  background-color: var(--primary-color);
+}
+
+.switch:checked::after {
+  transform: translateX(18px);
+}
