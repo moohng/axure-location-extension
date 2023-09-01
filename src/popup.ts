@@ -20,7 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
           } else if (!checked && index > -1) {
             allowUrls.splice(index, 1);
-            chrome.storage.sync.set({ allowUrls });
+            chrome.storage.sync.set({ allowUrls }).then(() => {
+              chrome.tabs.reload();
+            });
           }
         });
       });

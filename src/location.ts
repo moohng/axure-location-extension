@@ -9,7 +9,7 @@ export function axureReady() {
     let isAllowUrl = /axshare.com$/.test(location.hostname);
     if (!isAllowUrl) {
       const { allowUrls = [] } = await chrome.storage.sync.get('allowUrls');
-      isAllowUrl = allowUrls.includes(location.hostname);
+      isAllowUrl = allowUrls.includes(location.hostname || location.pathname);
     }
 
     if (isAllowUrl) {
@@ -33,6 +33,7 @@ export function axureReady() {
         }
       }, 500);
     } else {
+      console.log('[Axure Location] 当前网站不可用！！！');
       resolve(null);
     }
   });
