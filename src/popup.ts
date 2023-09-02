@@ -1,32 +1,33 @@
-document.addEventListener('DOMContentLoaded', () => {
-  getCurrentUrl().then((url) => {
-    setUrl(url);
+/**
+ * 开始运行
+ */
+document.addEventListener('DOMContentLoaded', async () => {
+  const url = await getCurrentUrl();
+  setUrl(url);
 
-    if (!url) {
-      document.querySelector<HTMLElement>('#operation')!.style.display = 'none';
-    } else {
-      const $switch = document.querySelector<HTMLInputElement>('#enableSwitch');
-      // 初始化启用状态
-      initStatus($switch!);
+  if (!url) {
+    document.querySelector<HTMLElement>('#operation')!.style.display = 'none';
+    return;
+  }
 
-      // 监听事件
-      $switch!.addEventListener('change', (e) => {
-        const checked = (e.target as HTMLInputElement).checked;
-        chrome.storage.sync.get('allowUrls').then(({ allowUrls }) => {
-          const index = allowUrls.indexOf(url);
-          if (checked && index === -1) {
-            chrome.storage.sync.set({ allowUrls: (allowUrls as unknown as string[]).concat(url) }).then(() => {
-              chrome.tabs.reload();
-            });
-          } else if (!checked && index > -1) {
-            allowUrls.splice(index, 1);
-            chrome.storage.sync.set({ allowUrls }).then(() => {
-              chrome.tabs.reload();
-            });
-          }
-        });
-      });
+  const $switch = document.querySelector<HTMLInputElement>('#enableSwitch');
+  // 初始化启用状态
+  initStatus($switch!);
+
+  // 监听事件
+  $switch!.addEventListener('change', async (e) => {
+    const checked = (e.target as HTMLInputElement).checked;
+
+    const { allowUrls } = await chrome.storage.sync.get('allowUrls');
+    const index = allowUrls.indexOf(url);
+
+    if (checked && index === -1) {
+      await chrome.storage.sync.set({ allowUrls: (allowUrls as unknown as string[]).concat(url) });
+    } else if (!checked && index > -1) {
+      allowUrls.splice(index, 1);
+      await chrome.storage.sync.set({ allowUrls });
     }
+    chrome.tabs.reload();
   });
 });
 
@@ -59,8 +60,7 @@ function setUrl(url = '当前网站不可用！！！') {
  * 设置状态
  * @param el
  */
-function initStatus(el: HTMLInputElement) {
-  Promise.all([getCurrentUrl(), chrome.storage.sync.get('allowUrls')]).then(([url, { allowUrls = [] }]) => {
-    el.checked = allowUrls.includes(url);
-  });
+async function initStatus(el: HTMLInputElement) {
+  const [url, { allowUrls = [] }] = await Promise.all([getCurrentUrl(), chrome.storage.sync.get('allowUrls')]);
+  el.checked = allowUrls.includes(url);
 }
