@@ -6,6 +6,9 @@ function createManifestPlugin() {
   return {
     buildEnd: () => {
       manifest.version = version;
+      if (!fs.existsSync('dist/output')) {
+        fs.mkdirSync('dist/output', { recursive: true });
+      }
       fs.writeFileSync('dist/output/manifest.json', JSON.stringify(manifest));
     },
   };

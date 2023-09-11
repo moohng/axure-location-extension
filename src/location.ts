@@ -6,11 +6,8 @@ export function axureReady() {
   let MAX_TRY_COUNT = 100;
 
   return new Promise<{ selectedItem: Element; toolBar: Element } | null>(async (resolve) => {
-    let isAllowUrl = /axshare.com$/.test(location.hostname);
-    if (!isAllowUrl) {
-      const { allowUrls = [] } = await chrome.storage.sync.get('allowUrls');
-      isAllowUrl = allowUrls.includes(location.hostname || location.pathname);
-    }
+    const { allowUrls = [] } = await chrome.storage.sync.get('allowUrls');
+    const isAllowUrl = allowUrls.includes(location.hostname || location.pathname);
 
     if (isAllowUrl) {
       let timer = setInterval(() => {

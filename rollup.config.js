@@ -13,7 +13,7 @@ module.exports = defineConfig(() => {
     input: {
       location: path.resolve('src/index.ts'),
       background: path.resolve('src/background.ts'),
-      popup: path.resolve('src/popup.ts'),
+      // popup: path.resolve('src/popup.ts'),
     },
     output: {
       dir: `dist/output`,
@@ -28,8 +28,8 @@ module.exports = defineConfig(() => {
       copy({
         targets: [
           { src: 'public/location.css', dest: 'dist/output/', rename: 'location.css' },
-          { src: 'public/popup.css', dest: 'dist/output/' },
-          { src: 'public/popup.html', dest: 'dist/output/' },
+          // { src: 'public/popup.css', dest: 'dist/output/' },
+          // { src: 'public/popup.html', dest: 'dist/output/' },
           { src: 'public/icons', dest: 'dist/output/' },
         ],
       }),
